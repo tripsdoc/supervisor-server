@@ -18,6 +18,8 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
+Route::post('login', 'LoginController@login');
+
 Route::group(['prefix' => 'supervisor'], function () {
     Route::post('import', 'API\SupervisorController@getImport');
     Route::post('export', 'API\SupervisorController@getExport');

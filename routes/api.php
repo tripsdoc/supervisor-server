@@ -21,8 +21,8 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 Route::post('login', 'LoginController@login');
 
 Route::group(['prefix' => 'supervisor'], function () {
-    Route::post('import', 'API\SupervisorController@getImport');
-    Route::post('export', 'API\SupervisorController@getExport');
-    Route::post('connect', 'API\SupervisorController@getConnection');
-    Route::post('all', 'API\SupervisorController@getAll');
+    Route::post('import', 'api\SupervisorController@getImport');
+    Route::post('export', 'api\SupervisorController@getExport');
+    Route::post('connect', 'api\SupervisorController@getConnection');
+    Route::post('all', 'api\SupervisorController@getAll');
 });

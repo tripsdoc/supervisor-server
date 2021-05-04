@@ -12,8 +12,8 @@ class SupervisorController extends Controller
     function getProc($mode, $warehouse) {
         $searchData = ($mode == 1) ? "''" : "'Export'";
         $selectedProc = ($mode == 1) ? "HSC2017.dbo.CntrPhoto_GetContainerList" : "HSC2017.dbo.CntrPhoto_GetExpContainerList";
-        $data = Cache::remember($selectedProc . '-' . $warehouse . '-' . $searchData, 60, function () {
-            return DB::connection("sqlsrv2")->select("exec " .  $selectedProc . " '', '', 'D', '" . $warehouse . "', " . $searchData);
+        $data = Cache::remember($selectedProc . '-' . $warehouse . '-' . $searchData, 60, function () use($selectedProc, $warehouse, $searchData) {
+            return DB::connection("sqlsrv")->select("exec " .  $selectedProc . " '', '', 'D', '" . $warehouse . "', " . $searchData);
         });
         return $data;
     }
@@ -73,8 +73,8 @@ class SupervisorController extends Controller
     }
 
     function getConnection(Request $request) {
-        $data = Cache::remember('HSC2017.dbo.CntrConnImpExp-' . $request->dateStart . '-' . $request->dateEnd . '-' . $request->warehouse, 60, function () {
-            return DB::connection("sqlsrv2")->select("exec HSC2017.dbo.CntrConnImpExp '', '" . $request->dateStart . "', '" . $request->dateEnd . "', '" . $request->warehouse . "', 'ImpConnExp'");
+        $data = Cache::remember('HSC2017.dbo.CntrConnImpExp-' . $request->dateStart . '-' . $request->dateEnd . '-' . $request->warehouse, 60, function () use($request) {
+            return DB::connection("sqlsrv")->select("exec HSC2017.dbo.CntrConnImpExp '', '" . $request->dateStart . "', '" . $request->dateEnd . "', '" . $request->warehouse . "', 'ImpConnExp'");
         });
         $dataArray = array();
         foreach($data as $key => $datas) {
